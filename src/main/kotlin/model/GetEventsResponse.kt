@@ -32,4 +32,5 @@ data class GetEventsResponse(
      */
     @JsonProperty("multiday_ongoing")
     val multidayOngoing: List<EventSummary>?,
-)
+    override val rateLimit: RateLimit,
+): StandardResponse

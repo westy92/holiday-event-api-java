@@ -16,4 +16,5 @@ data class SearchResponse(
      * The found Events
      */
     val events: List<EventSummary>,
-)
+    override val rateLimit: RateLimit,
+): StandardResponse

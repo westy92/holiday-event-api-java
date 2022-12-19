@@ -1,7 +1,7 @@
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import com.sun.javaws.exceptions.InvalidArgumentException
 import model.GetEventInfoResponse
 import model.GetEventsResponse
 import model.SearchResponse
@@ -90,7 +90,12 @@ class Client(
             if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
             val body = response.body!!.string()
-            return mapper.readValue(body, returnType)
+            val map = mapper.readValue<Map<String, Any>>(body).toMutableMap()
+            map["rateLimit"] = mapOf(
+                "limitMonth" to response.header("X-RateLimit-Limit-Month", "0")!!.toInt(),
+                "remainingMonth" to response.header("X-RateLimit-Remaining-Month", "0")!!.toInt(),
+            )
+            return mapper.convertValue(map, returnType)
         }
     }
 }
