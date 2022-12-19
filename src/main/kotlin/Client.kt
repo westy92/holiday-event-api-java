@@ -22,8 +22,7 @@ class Client(
 
     init {
         if (apiKey.isEmpty()) {
-            // TODO exception
-            // Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.
+            throw IllegalArgumentException("Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.")
         }
     }
 
