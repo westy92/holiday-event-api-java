@@ -37,7 +37,7 @@ class Client(
         if (timezone != null) {
             params["timezone"] = timezone
         }
-        return request("events", mapOf(), GetEventsResponse::class.java)
+        return request("events", params, GetEventsResponse::class.java)
     }
 
     fun getEventInfo(id: String, start: Int? = null, end: Int? = null): GetEventInfoResponse {
