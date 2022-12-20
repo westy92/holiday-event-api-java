@@ -5,6 +5,7 @@ plugins {
     id("java-library")
     application
     id("maven-publish")
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
 
 group = "com.westy92"

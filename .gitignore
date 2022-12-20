@@ -26,3 +26,5 @@ bin/
 build/
 .gradle/
 .idea/
+
+!gradle/wrapper/gradle-wrapper.jar

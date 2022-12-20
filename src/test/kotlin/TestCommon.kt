@@ -3,8 +3,6 @@ import okhttp3.mockwebserver.MockWebServer
 import okhttp3.mockwebserver.SocketPolicy
 import org.junit.jupiter.api.assertThrows
 import java.io.IOException
-import java.lang.RuntimeException
-import java.net.ConnectException
 import kotlin.test.*
 
 private val getEventsDefaultJson = {}::class.java.getResource("/getEvents-default.json")!!.readText()
@@ -94,7 +92,7 @@ class TestCommon {
         val mockUrl = mockWebServer.url("/").toString()
         val client = Client("abc123", mockUrl)
         // TODO wrap exception?
-        assertThrows<ConnectException> {
+        assertThrows<IOException> {
             client.getEvents()
         }
     }
