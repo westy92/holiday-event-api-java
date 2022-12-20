@@ -43,6 +43,9 @@ class TestGetEvents {
             name = "Cinco de Mayo",
             url = "https://www.checkiday.com/b80630ae75c35f34c0526173dd999cfc/cinco-de-mayo",
         ), result.events[0])
+        val request = mockWebServer.takeRequest()
+        assertEquals(1, request.requestUrl?.querySize)
+        assertEquals("false", request.requestUrl?.queryParameter("adult"))
     }
 
     @Test
@@ -65,5 +68,10 @@ class TestGetEvents {
             name = "Get to Know Your Customers Day",
             url = "https://www.checkiday.com/6ebb6fd5e483de2fde33969a6c398472/get-to-know-your-customers-day",
         ), result.events[0])
+        val request = mockWebServer.takeRequest()
+        assertEquals(3, request.requestUrl?.querySize)
+        assertEquals("true", request.requestUrl?.queryParameter("adult"))
+        assertEquals("7/16/1992", request.requestUrl?.queryParameter("date"))
+        assertEquals("America/New_York", request.requestUrl?.queryParameter("timezone"))
     }
 }

@@ -36,6 +36,9 @@ class TestGetEventInfo {
         val client = Client("abc123", mockUrl)
         val result = client.getEventInfo("f90b893ea04939d7456f30c54f68d7b4")
         assertEquals(2, result.event.hashtags?.size)
+        val request = mockWebServer.takeRequest()
+        assertEquals(1, request.requestUrl?.querySize)
+        assertEquals("f90b893ea04939d7456f30c54f68d7b4", request.requestUrl?.queryParameter("id"))
     }
 
     @Test
@@ -55,6 +58,11 @@ class TestGetEventInfo {
                 length = 1,
             ), result.event.occurrences?.get(0)
         )
+        val request = mockWebServer.takeRequest()
+        assertEquals(3, request.requestUrl?.querySize)
+        assertEquals("f90b893ea04939d7456f30c54f68d7b4", request.requestUrl?.queryParameter("id"))
+        assertEquals("2002", request.requestUrl?.queryParameter("start"))
+        assertEquals("2003", request.requestUrl?.queryParameter("end"))
     }
 
     @Test
@@ -68,6 +76,9 @@ class TestGetEventInfo {
             client.getEventInfo("hi")
         }
         assertEquals("Event not found.", e.message)
+        val request = mockWebServer.takeRequest()
+        assertEquals(1, request.requestUrl?.querySize)
+        assertEquals("hi", request.requestUrl?.queryParameter("id"))
     }
 
     @Test

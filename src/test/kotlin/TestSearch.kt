@@ -44,6 +44,10 @@ class TestSearch {
                 url = "https://www.checkiday.com/cc81cbd8730098456f85f69798cbc867/national-zucchini-bread-day",
             ), result.events[0]
         )
+        val request = mockWebServer.takeRequest()
+        assertEquals(2, request.requestUrl?.querySize)
+        assertEquals("zucchini", request.requestUrl?.queryParameter("query"))
+        assertEquals("false", request.requestUrl?.queryParameter("adult"))
     }
 
     @Test
@@ -64,6 +68,10 @@ class TestSearch {
                 url = "https://www.checkiday.com/61363236f06e4eb8e4e14e5925c2503d/sneak-some-zucchini-onto-your-neighbors-porch-day",
             ), result.events[0]
         )
+        val request = mockWebServer.takeRequest()
+        assertEquals(2, request.requestUrl?.querySize)
+        assertEquals("porch day", request.requestUrl?.queryParameter("query"))
+        assertEquals("true", request.requestUrl?.queryParameter("adult"))
     }
 
     @Test
@@ -77,6 +85,10 @@ class TestSearch {
             client.search("a")
         }
         assertEquals("Please enter a longer search term.", e.message)
+        val request = mockWebServer.takeRequest()
+        assertEquals(2, request.requestUrl?.querySize)
+        assertEquals("a", request.requestUrl?.queryParameter("query"))
+        assertEquals("false", request.requestUrl?.queryParameter("adult"))
     }
 
     @Test
@@ -90,6 +102,10 @@ class TestSearch {
             client.search("day")
         }
         assertEquals("Too many results returned. Please refine your query.", e.message)
+        val request = mockWebServer.takeRequest()
+        assertEquals(2, request.requestUrl?.querySize)
+        assertEquals("day", request.requestUrl?.queryParameter("query"))
+        assertEquals("false", request.requestUrl?.queryParameter("adult"))
     }
 
     @Test
