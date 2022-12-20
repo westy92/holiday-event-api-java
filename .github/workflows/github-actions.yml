@@ -6,12 +6,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+        strategy:
+      matrix:
+        #os: [ubuntu-latest, windows-latest, macos-latest]
+        # https://endoflife.date/java
+        java-version: [8, 11, 17, 19]
+
     steps:
       - uses: actions/checkout@v3
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
-          java-version: '11'
+          java-version: ${{ matrix.java-version }}
           distribution: 'adopt'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
