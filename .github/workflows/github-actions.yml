@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
 
     strategy:
       matrix:
@@ -25,7 +25,6 @@ jobs:
         uses: gradle/gradle-build-action@v2
         with:
           arguments: build
-      - name: Test with Gradle
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: test
+      - name: Upload coverage to Codecov
+        if: ${{ matrix.java-version == '19' && matrix.os == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v3
