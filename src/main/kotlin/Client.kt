@@ -7,15 +7,18 @@ import model.GetEventsResponse
 import model.SearchResponse
 import okhttp3.Headers
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.io.IOException
 import java.lang.IllegalArgumentException
+import java.lang.RuntimeException
 
 class Client(
     private val apiKey: String,
+    baseUrl: String = "https://api.apilayer.com/checkiday"
 ) {
     private val client: OkHttpClient = OkHttpClient()
+    private val baseUrl: HttpUrl
     private val mapper = ObjectMapper().registerKotlinModule().apply {
         configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
     }
@@ -24,6 +27,7 @@ class Client(
         if (apiKey.isEmpty()) {
             throw IllegalArgumentException("Please provide a valid API key. Get one at https://apilayer.com/marketplace/checkiday-api#pricing.")
         }
+        this.baseUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalArgumentException("Invalid baseUrl.")
     }
 
     fun getEvents(date: String? = null, adult: Boolean = false, timezone: String? = null): GetEventsResponse {
@@ -66,11 +70,8 @@ class Client(
         return request("search", params, SearchResponse::class.java)
     }
 
-    private fun <T>request(path: String, params: Map<String, String>, returnType: Class<T>): T {
-        val url = HttpUrl.Builder()
-            .scheme("https")
-            .host("api.apilayer.com")
-            .addPathSegment("checkiday")
+    private fun <T> request(path: String, params: Map<String, String>, returnType: Class<T>): T {
+        val url = baseUrl.newBuilder()
             .addPathSegment(path)
             .apply {
                 for ((key, value) in params) {
@@ -86,15 +87,23 @@ class Client(
             ))
             .build()
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
-            val body = response.body!!.string()
-            val map = mapper.readValue<Map<String, Any>>(body).toMutableMap()
-            map["rateLimit"] = mapOf(
-                "limitMonth" to response.header("X-RateLimit-Limit-Month", "0")!!.toInt(),
-                "remainingMonth" to response.header("X-RateLimit-Remaining-Month", "0")!!.toInt(),
-            )
-            return mapper.convertValue(map, returnType)
+            var data: Map<String, Any> = mapOf()
+            try {
+                val body = response.body!!.string()
+                data = mapper.readValue<Map<String, Any>>(body).toMutableMap()
+                data["rateLimit"] = mapOf(
+                    "limitMonth" to response.header("X-RateLimit-Limit-Month", "0")!!.toInt(),
+                    "remainingMonth" to response.header("X-RateLimit-Remaining-Month", "0")!!.toInt(),
+                )
+                return mapper.convertValue(data, returnType)
+            } catch (e: Exception) {
+                if (response.isSuccessful) {
+                    throw RuntimeException("Unable to parse response.")
+                } else {
+                    val error = data.getOrDefault("error", response.message).toString()
+                    throw RuntimeException(error)
+                }
+            }
         }
     }
 }

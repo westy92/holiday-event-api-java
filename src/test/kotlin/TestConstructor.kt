@@ -14,6 +14,14 @@ class TestConstructor {
     }
 
     @Test
+    fun testInvalidBaseUrl() {
+        val e = assertThrows<IllegalArgumentException> {
+            Client("abc123", "")
+        }
+        assertEquals("Invalid baseUrl.", e.message)
+    }
+
+    @Test
     fun testConstructorSuccess() {
         val client = Client("apikey")
         assertNotNull(client)
