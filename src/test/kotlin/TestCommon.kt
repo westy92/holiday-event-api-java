@@ -47,6 +47,17 @@ class TestCommon {
     }
 
     @Test
+    fun testSendsPlatformVersion() {
+        mockWebServer.enqueue(MockResponse()
+            .setBody(getEventsDefaultJson))
+        val mockUrl = mockWebServer.url("/").toString()
+        val client = Client("abc123", mockUrl)
+        client.getEvents()
+        val request = mockWebServer.takeRequest()
+        assertEquals(System.getProperty("java.version"), request.headers["X-Platform-Version"])
+    }
+
+    @Test
     fun testPassesAlongError() {
         mockWebServer.enqueue(MockResponse()
             .setResponseCode(401)

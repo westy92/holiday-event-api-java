@@ -84,6 +84,7 @@ class Client(
             .headers(Headers.headersOf(
                 "apikey", apiKey,
                 "User-Agent", "HolidayApiJava/1.0.0", // TODO auto version?
+                "X-Platform-Version", System.getProperty("java.version"),
             ))
             .build()
         client.newCall(request).execute().use { response ->
