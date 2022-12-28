@@ -4,7 +4,7 @@ apply(plugin = "maven-publish")
 apply(plugin = "signing")
 
 plugins {
-    kotlin("jvm") version "1.7.21"
+    kotlin("jvm") version "1.8.0"
     id("java-library")
     application
     id("signing")
@@ -82,15 +82,16 @@ publishing {
         artifact(sourcesJar)
         artifact(javadocJar)
         pom {
+            val projectGitUrl = "https://github.com/westy92/holiday-event-api-java"
             name.set("Holiday and Event API")
             description.set(project.description)
             inceptionYear.set("2022")
-            url.set("https://github.com/westy92/holiday-event-api-java")
+            url.set(projectGitUrl)
             developers {
                 developer {
                     name.set("Seth Westphal")
                     id.set("westy92")
-                    email.set("seth@sethwestphal.com")
+                    url.set("https://github.com/westy92")
                 }
             }
             licenses {
@@ -99,10 +100,14 @@ publishing {
                     url.set("https://opensource.org/licenses/MIT")
                 }
             }
+            issueManagement {
+                system.set("GitHub")
+                url.set("$projectGitUrl/issues")
+            }
             scm {
-                connection.set("scm:git:https://github.com/westy92/holiday-event-api-java.git")
-                developerConnection.set("scm:git:https://github.com/westy92/holiday-event-api-java.git")
-                url.set("https://github.com/westy92/holiday-event-api-java")
+                connection.set("scm:git:$projectGitUrl.git")
+                developerConnection.set("scm:git:$projectGitUrl.git")
+                url.set(projectGitUrl)
             }
         }
     }

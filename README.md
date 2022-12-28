@@ -1,5 +1,6 @@
 # The Official Holiday and Event API for Java and Kotlin
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.westy92.holiday-event-api/holiday-event-api)](https://search.maven.org/artifact/com.westy92.holiday-event-api/holiday-event-api)
 [![Build Status](https://github.com/westy92/holiday-event-api-java/actions/workflows/github-actions.yml/badge.svg)](https://github.com/westy92/holiday-event-api-java/actions)
 [![Code Coverage](https://codecov.io/gh/westy92/holiday-event-api-java/branch/main/graph/badge.svg)](https://codecov.io/gh/westy92/holiday-event-api-java)
 [![Funding Status](https://img.shields.io/github/sponsors/westy92)](https://github.com/sponsors/westy92)
