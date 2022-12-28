@@ -30,6 +30,9 @@ class Client(
         this.baseUrl = baseUrl.toHttpUrlOrNull() ?: throw IllegalArgumentException("Invalid baseUrl.")
     }
 
+    /**
+     * Gets the Events for the provided Date
+     */
     fun getEvents(date: String? = null, adult: Boolean = false, timezone: String? = null): GetEventsResponse {
         val params = mutableMapOf(
             "adult" to adult.toString(),
@@ -43,6 +46,9 @@ class Client(
         return request("events", params, GetEventsResponse::class.java)
     }
 
+    /**
+     * Gets the Event Info for the provided Event
+     */
     fun getEventInfo(id: String, start: Int? = null, end: Int? = null): GetEventInfoResponse {
         if (id.isEmpty()) {
             throw IllegalArgumentException("Event id is required.")
@@ -59,6 +65,9 @@ class Client(
         return request("event", params, GetEventInfoResponse::class.java)
     }
 
+    /**
+     * Searches for Events with the given criteria
+     */
     fun search(query: String, adult: Boolean = false): SearchResponse {
         if (query.isEmpty()) {
             throw IllegalArgumentException("Search query is required.")

@@ -1,5 +1,8 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+apply(plugin = "maven-publish")
+apply(plugin = "signing")
+
 plugins {
     kotlin("jvm") version "1.7.21"
     id("java-library")
@@ -9,12 +12,12 @@ plugins {
     id("org.jetbrains.kotlinx.kover") version "0.6.1"
 }
 
-group = "com.westy92.holidayeventapi"
+group = "com.westy92.holiday-event-api"
 version = "0.0.1"
 description = "The Official Holiday and Event API for Java and Kotlin"
 
-val ossrhUsername: String? by project
-val ossrhPassword: String? by project
+val ossrhUsername: String by project
+val ossrhPassword: String by project
 
 repositories {
     mavenCentral()
@@ -57,7 +60,8 @@ artifacts {
 }
 
 signing {
-    sign(configurations.archives.name)
+    val extension = extensions.getByName("publishing") as PublishingExtension
+    sign(extension.publications)
 }
 
 publishing {
@@ -74,33 +78,31 @@ publishing {
         }
     }
 
-    publications.withType<MavenPublication>().forEach {
-        it.apply {
-            artifact(sourcesJar)
-            artifact(javadocJar)
-            pom {
-                name.set("Holiday and Event API")
-                description.set(project.description)
-                inceptionYear.set("2022")
+    publications.create<MavenPublication>("mavenJava") {
+        artifact(sourcesJar)
+        artifact(javadocJar)
+        pom {
+            name.set("Holiday and Event API")
+            description.set(project.description)
+            inceptionYear.set("2022")
+            url.set("https://github.com/westy92/holiday-event-api-java")
+            developers {
+                developer {
+                    name.set("Seth Westphal")
+                    id.set("westy92")
+                    email.set("seth@sethwestphal.com")
+                }
+            }
+            licenses {
+                license {
+                    name.set("MIT")
+                    url.set("https://opensource.org/licenses/MIT")
+                }
+            }
+            scm {
+                connection.set("scm:git:https://github.com/westy92/holiday-event-api-java.git")
+                developerConnection.set("scm:git:https://github.com/westy92/holiday-event-api-java.git")
                 url.set("https://github.com/westy92/holiday-event-api-java")
-                developers {
-                    developer {
-                        name.set("Seth Westphal")
-                        id.set("westy92")
-                        email.set("seth@sethwestphal.com")
-                    }
-                }
-                licenses {
-                    license {
-                        name.set("MIT")
-                        url.set("https://opensource.org/licenses/MIT")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:https://github.com/westy92/holiday-event-api-java.git")
-                    developerConnection.set("scm:git:https://github.com/westy92/holiday-event-api-java.git")
-                    url.set("https://github.com/westy92/holiday-event-api-java")
-                }
             }
         }
     }
