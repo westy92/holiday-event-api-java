@@ -110,7 +110,7 @@ class Client(
                 if (response.isSuccessful) {
                     throw RuntimeException("Unable to parse response.")
                 } else {
-                    val error = data.getOrDefault("error", response.message).toString()
+                    val error = data.getOrDefault("error", response.message.ifEmpty { response.code }).toString()
                     throw RuntimeException(error)
                 }
             }
