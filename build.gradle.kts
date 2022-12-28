@@ -10,8 +10,11 @@ plugins {
 }
 
 group = "com.westy92.holidayeventapi"
-version = "0.0.1-SNAPSHOT"
+version = "0.0.1"
 description = "The Official Holiday and Event API for Java and Kotlin"
+
+val ossrhUsername: String? by project
+val ossrhPassword: String? by project
 
 repositories {
     mavenCentral()
@@ -64,10 +67,10 @@ publishing {
             val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
             name = "deploy"
             url = uri(if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl)
-            /*credentials {
-                username = java.lang.System.getenv("OSSRH_USERNAME") ?: ""
-                password = java.lang.System.getenv("OSSRH_PASSWORD") ?: ""
-            }*/
+            credentials {
+                username = ossrhUsername
+                password = ossrhPassword
+            }
         }
     }
 
