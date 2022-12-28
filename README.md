@@ -16,8 +16,8 @@ Access to the Holiday and Event API requires an API Key. You can get for one for
 
 ## Installation
 
-```console
-$ TODO
+```kotlin
+implementation("com.westy92.holiday-event-api:holiday-event-api:1.0.0")
 ```
 
 ## Example
