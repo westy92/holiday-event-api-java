@@ -10,7 +10,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         # https://endoflife.date/java
-        java-version: [8, 11, 17, 19]
+        java-version: [8, 11, 17, 20]
 
     steps:
       - uses: actions/checkout@v3
@@ -30,5 +30,5 @@ jobs:
         with:
           arguments: koverXmlReport
       - name: Upload coverage to Codecov
-        if: ${{ matrix.java-version == '19' && matrix.os == 'ubuntu-latest' }}
+        if: ${{ matrix.java-version == '20' && matrix.os == 'ubuntu-latest' }}
         uses: codecov/codecov-action@v3
