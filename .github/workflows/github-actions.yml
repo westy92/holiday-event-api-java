@@ -11,7 +11,6 @@ jobs:
         os: [ubuntu-latest, windows-latest, macos-latest]
         # https://endoflife.date/java
         java-version: [8, 11, 17, 20]
-        distribution: 'corretto'
 
     steps:
       - uses: actions/checkout@v3
@@ -19,7 +18,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: ${{ matrix.java-version }}
-          distribution: 'adopt'
+          distribution: 'oracle'
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v1
       - name: Build with Gradle
