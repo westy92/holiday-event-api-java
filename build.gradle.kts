@@ -25,7 +25,7 @@ repositories {
 
 dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.10.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.0")
 
     testImplementation(kotlin("test"))
     testImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
