@@ -4,7 +4,7 @@ apply(plugin = "maven-publish")
 apply(plugin = "signing")
 
 plugins {
-    kotlin("jvm") version "1.8.21"
+    kotlin("jvm") version "1.9.0"
     id("java-library")
     application
     id("signing")
