@@ -52,7 +52,7 @@ val sourcesJar by tasks.creating(Jar::class) {
 
 val javadocJar by tasks.creating(Jar::class) {
     archiveClassifier.set("javadoc")
-    from(tasks.javadoc)
+    from(tasks.dokkaHtml)
 }
 
 application {
