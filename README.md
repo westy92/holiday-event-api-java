@@ -63,3 +63,9 @@ try {
     println(e)
 }
 ```
+
+## Publishing
+
+1. `./gradlew publish`
+1. [login](https://s01.oss.sonatype.org/#stagingRepositories) and go to `Staging Repositories`.
+1. Follow steps [here](https://central.sonatype.org/publish/release/#locate-and-examine-your-staging-repository) to `Close` and then `Release`.
