@@ -14,7 +14,7 @@ plugins {
 }
 
 group = "com.westy92.holiday-event-api"
-version = "0.0.1"
+version = "0.0.2"
 description = "The Official Holiday and Event API for Java and Kotlin"
 
 val ossrhUsername: String? by project
