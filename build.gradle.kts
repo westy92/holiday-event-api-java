@@ -4,7 +4,7 @@ apply(plugin = "maven-publish")
 apply(plugin = "signing")
 
 plugins {
-    kotlin("jvm") version "1.8.21"
+    kotlin("jvm") version "1.9.23"
     id("java-library")
     application
     id("signing")
@@ -37,6 +37,11 @@ tasks.test {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
