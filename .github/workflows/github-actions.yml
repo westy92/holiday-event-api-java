@@ -33,6 +33,3 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Generate Docs
-        if: ${{ matrix.java-version == '21' && matrix.os == 'ubuntu-latest' }}
-        run: ./gradlew dokkaHtml
