@@ -21,13 +21,13 @@ jobs:
           java-version: ${{ matrix.java-version }}
           distribution: 'corretto'
       - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
+        uses: gradle/actions/wrapper-validation@v3
       - name: Build with Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
         with:
           arguments: build
       - name: Test with Coverage
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/actions/setup-gradle@v3
         with:
           arguments: koverXmlReport
       - name: Upload coverage to Codecov
@@ -35,3 +35,8 @@ jobs:
         uses: codecov/codecov-action@v4
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Generate Docs
+        if: ${{ matrix.java-version == '21' && matrix.os == 'ubuntu-latest' }}
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          arguments: dokkaHtml
