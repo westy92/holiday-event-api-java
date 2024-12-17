@@ -10,7 +10,7 @@ plugins {
     id("signing")
     id("maven-publish")
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
-    id("org.jetbrains.dokka") version "1.9.20"
+    id("org.jetbrains.dokka") version "2.0.0"
 }
 
 group = "com.westy92.holiday-event-api"
